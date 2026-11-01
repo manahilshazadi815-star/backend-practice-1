@@ -1,27 +1,26 @@
 
 
-import express, { type Request, type Response } from 'express';
+import http, {IncomingMessage,ServerResponse} from 'http';
 
-const app = express();
-
-app.use(express.json());
-
-app.get('/home', (req: Request, res: Response) => {
-  res.send('Welcome to the home page!');
+const server = http.createServer((req: IncomingMessage, res: ServerResponse) => {
+  if (req.url === '/home' && req.method === 'GET') {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Welcome to the home page!');
+  } else if (req.url === '/about' && req.method === 'GET') {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('This is the about page.');
+  } else if (req.url === '/services' && req.method === 'GET') {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Our services include web development, app development, and more.');
+  } else if (req.url === '/contact' && req.method === 'GET') {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Contact us at contact@example.com');
+  } else {
+    res.writeHead(404, { 'Content-Type': 'text/plain' });
+    res.end('Page not found');
+  }
 });
 
-app.get('/about', (req: Request, res: Response) => {
-  res.send('This is the about page.');
-});
-
-app.get('/services', (req: Request, res: Response) => {
-  res.send('Our services include web development, app development, and more.');
-});
-
-app.get('/contact', (req: Request, res: Response) => {
-  res.send('Contact us at contact@example.com');
-});
-
-app.listen(3000, () => {
+server.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
